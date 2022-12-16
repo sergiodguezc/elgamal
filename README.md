@@ -1,1 +1,1 @@
-# Esquema de firma ElGamal
+# ElGamal Signature Scheme
