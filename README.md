@@ -1,1 +1,1 @@
-# ElGamal Signature Scheme
+# ElGamal Digital Signature Scheme
