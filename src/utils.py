@@ -11,10 +11,9 @@ primes: set = set()   # Primes set
 # finding all prime numbers up to any given limit
 #   @n:      sieve limit
 #   @return: list containing the sieve of eratosthenes
-
+# TODO: TAMAL muchacho
 def sieve_of_eratosthenes(n: int) -> list:
     sieve: list = [True] * (n + 1)
-    # primes: set = set()
     sieve[0] = False
     sieve[1] = False
 
@@ -45,7 +44,7 @@ def fill_primes_set():
     global primes
 
     sieve: list = sieve_of_eratosthenes(SIEVE_LEN)
-    primes = [i for i in range(1, SIEVE_LEN) if sieve[i] and i > 1]
+    primes = [i for i in range(1, SIEVE_LEN) if sieve[i]]
 
 
 # Implementation of the Miller-Rabin test
@@ -113,14 +112,14 @@ def is_prime(n: int) -> bool:
 
 def random_prime(n_bits: int) -> int:
     # Random number of n_bits
-    n: int = randrange(2**(n_bits-1)-1, 2**(n_bits)-1)
+    n: int = randrange(2**(n_bits-1)+1, 2**(n_bits)-1)
 
     # If the number is even we make it odd
     n |= 1
 
     while not is_prime(n):
         # Random number of n_bits
-        n: int = randrange(2**(n_bits-1)-1, 2**(n_bits)-1)
+        n: int = randrange(2**(n_bits-1)+1, 2**(n_bits)-1)
 
         # If the number is even we make it odd
         n |= 1
@@ -159,3 +158,4 @@ def random_prime_with_generator(n_bits: int) -> (int, int):
 
 
 fill_primes_set()
+print(primes)
