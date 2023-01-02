@@ -11,18 +11,20 @@ primes: set = set()   # Primes set
 # finding all prime numbers up to any given limit
 #   @n:      sieve limit
 #   @return: list containing the sieve of eratosthenes
-# TODO: TAMAL muchacho
 def sieve_of_eratosthenes(n: int) -> list:
-    sieve: list = [True] * (n + 1)
-    sieve[0] = False
-    sieve[1] = False
+    sieve = [1] * (n+1)
+    sieve[0] = 0
+    sieve[1] = 0
 
-    p: int = 2
-    while (p*p <= n):
-        if sieve[p-1] is True:
-            for i in range(p*p-1, n, p):
-                sieve[i] = False
-        p += 1
+    num: int = 1
+
+    while num <= n:
+        if sieve[num] == 1:
+            i = 2 * num
+            while i <= n:
+                sieve[i] = 0
+                i += num
+        num += 1
 
     return sieve
 
@@ -39,6 +41,22 @@ def is_eratostenes_prime(n: int) -> bool:
     return True
 
 
+# returns (gcd, x, y)
+# (x, y) such that gcd = x * a + b * y
+def extended_gcd(a, b):
+    (old_r, r) = (a, b)
+    (old_s, s) = (1, 0)
+    (old_t, t) = (0, 1)
+
+    while r != 0:
+        q = old_r // r
+        (old_r, r) = (r, old_r - q * r)
+        (old_s, s) = (s, old_s - q * s)
+        (old_t, t) = (t, old_t - q * t)
+
+    return old_r, old_s, old_t
+
+
 # Auxiliary function which initializes the global primes set.
 def fill_primes_set():
     global primes
@@ -52,7 +70,7 @@ def fill_primes_set():
 #   @k:      positive integer that indicates the number of attempts.
 #   @return: boolean indicating if the prime is probable
 
-def miller_rabin_test(n: int, k: int = 10) -> bool:
+def miller_rabin_test(n: int, k: int = 40) -> bool:
     # The first thing to do is to check if the number is less than 11 and
     # prime.
     if n in {2, 3, 5, 7}:  # We check whether n is prime less than 11
@@ -158,4 +176,3 @@ def random_prime_with_generator(n_bits: int) -> (int, int):
 
 
 fill_primes_set()
-print(primes)
