@@ -175,4 +175,31 @@ def random_prime_with_generator(n_bits: int) -> (int, int):
     return p, g
 
 
+# Function which converts a string to a list of integers.
+def message_to_ascii_blocks(msg: str, blk_size: int) -> list:
+    blocks = []
+
+    ascii = ord(msg[0])  # Compute ASCII value of a one-point string
+    for i in range(1, len(msg)):
+        if (i % blk_size == 0):
+            blocks.append(ascii)
+            ascii = 0
+        # ASCII values have at most 3 characters
+        ascii = 1000 * ascii + ord(msg[i])
+    blocks.append(ascii)  # Add the last element
+    return blocks
+
+
+# Function which converts a list of integers to a string
+def ascii_blocks_to_message(blk: int, blk_size: int) -> str:
+    message = ""
+    for i in range(len(blk)):
+        tmp = ""
+        for _ in range(blk_size):
+            tmp = chr(blk[i] % 1000) + tmp  # chr is the inverse of ord
+            blk[i] //= 1000  # Drop the translated part
+        message += tmp
+    return message
+
+
 fill_primes_set()
