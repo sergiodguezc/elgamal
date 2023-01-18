@@ -101,6 +101,7 @@ def send_encrypted_message(users: list):
 
 
 def sign_message(me):
+    print("\n Signing a message")
     message = input(" Enter the message you want to sign: ")
     H = hash
 
@@ -115,8 +116,16 @@ def sign_message(me):
 
     print(f" Signature = (r, s)\n    r = {r}\n    s = {s}\n")
 
-    if elgamal.verify(public, signature, m):
-        print(" Signature verified.")
+    print(" Everyone can verify that the message has been signed by you")
+    while True:
+        new_msg = input(" Try to change the original message: ")
+        if elgamal.verify(public, signature, H(new_msg)):
+            print("  Signature verified. The message hasn't been changed.")
+            break
+        else:
+            print("""  Signature does not match the message. \
+It has been changed!""")
+    print()
     return
 
 
@@ -145,7 +154,7 @@ def header():
     print(" ██╔══╝  ██║     ██║   ██║██╔══██║██║╚██╔╝██║██╔══██║██║     ")
     print(" ███████╗███████╗╚██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║███████╗")
     print(" ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝")
-    print("                    Signature Scheme                         ")
+    print("              Encryption    &    Signature Scheme            ")
     print("      Sergio Domínguez   Javier Lobillo   Marina Musse       ")
     print("                                                             ")
     print("                     2022  /  2023                           ")
