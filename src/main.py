@@ -1,11 +1,13 @@
 import elgamal
 import utils
+import random
 
 menu_options = {
     1: 'Show users with their public keys',
     2: 'Send an encrypted message to a user.',
     3: 'Sign a message.',
-    4: 'Exit.'
+    4: 'Attack user (Pohlig-Hellman).',
+    5: 'Exit.'
 }
 
 usernames = ["Me", "Alice", "Bob"]
@@ -52,6 +54,27 @@ def show_users(users: list):
         print(f"    Prime: {p}")
         print(f"    Generator: {g}")
         print(f"    g^a mod p: {ga}")
+    print()
+
+
+def attack_user():
+    print("\n Attack user")
+    print(" Let's create a user with a poor key")
+    username = input(" Enter username for the new user: ")
+    p, g, new_user_factors = utils.smooth_prime_minus_1_500()
+    private = random.randint(2, p - 1)
+    ga = pow(g, private, p)
+    print(f"\n  {username}")
+    print(f"    Prime: {p}")
+    print(f"    Generator: {g}")
+    print(f"    Private key: {private}")
+    print(f"    g^a mod p: {ga}")
+
+    print("""\n  If you apply Pohlig-Hellman to the public values,\
+ you can obtain the private key\n""")
+
+    a, mod = utils.silver_pohlig_hellman(g, ga, p - 1, new_user_factors)
+    print(f"  Private Key obtained: {a}")
     print()
 
 
@@ -179,6 +202,8 @@ def main():
         elif option == 3:
             sign_message(me)
         elif option == 4:
+            attack_user()
+        elif option == 5:
             break
         else:
             print("Invalid option. Please introduce a number between 1 and 4")

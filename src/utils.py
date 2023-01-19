@@ -1,5 +1,5 @@
 from random import randint, randrange
-from math import gcd, log2
+from math import gcd
 
 
 # Global variables
@@ -203,20 +203,20 @@ def ascii_blocks_to_message(blk: int, blk_size: int) -> str:
 
 
 def smooth_prime_minus_1_500() -> (int, int, list):
-    n_bits: int = 5
+    n_bits: int = 10
     fact = list()
     while True:
         p, g = random_prime_with_generator(n_bits)
         p_aux = p - 1
-        for i in range(30):
+        for i in primes:
             e: int = 0
-            if p_aux == 0:
+            if p_aux == 1:
                 return p, g, fact
-            while p_aux % primes[i] == 0:
-                p_aux == p_aux // i
+            while p_aux % i == 0:
+                p_aux //= i
                 e += 1
             if e != 0:
-                fact.append((primes[i], e))
+                fact.append((i, e))
 
 
 def reduce_congruence(cong: list):
@@ -238,10 +238,10 @@ def reduce_congruence(cong: list):
 
 def silver_pohlig_hellman(b: int, h: int, n: int, fact: list) -> int:
     m = list()
-    for (pi, ei) in range(len(fact)):
+    for (pi, ei) in fact:
         rij = list()
         for j in range(pi):
-            rij.append(pow(b, (j*n)//pi))
+            rij.append(pow(b, (j*n)//pi, n+1))
         x = list()
         for k in range(ei):
             exp = 0
@@ -249,7 +249,7 @@ def silver_pohlig_hellman(b: int, h: int, n: int, fact: list) -> int:
                 exp += x[t]*pow(pi, t)
             yk = h // pow(b, exp)
 
-            ykn = pow(yk, n // pow(pi, k + 1))
+            ykn = pow(yk, n // pow(pi, k + 1), n+1)
             res = 0
             for j in range(pi):
                 if ykn == rij[j]:
@@ -263,4 +263,3 @@ def silver_pohlig_hellman(b: int, h: int, n: int, fact: list) -> int:
 
 
 fill_primes_set()
-print(smooth_prime_minus_1_500())
