@@ -107,7 +107,6 @@ def sign_message(me):
 
     private, public = me["private"], me["public"]
 
-    p, _, _ = public
     m = H(message)
     print(f"\n Hash(message) = {m}\n")
 
@@ -143,6 +142,7 @@ def generate_users(n_bits: int):
                      "public": public, "private": private})
         printProgressBar(i, n_users, prefix=' Generating users:',
                          suffix='Complete', length=30)
+    print()
     return users
 
 
@@ -157,7 +157,7 @@ def header():
     print("              Encryption    &    Signature Scheme            ")
     print("      Sergio Domínguez   Javier Lobillo   Marina Musse       ")
     print("                                                             ")
-    print("                     2022  /  2023                           ")
+    print("                     2022  -  2023                           ")
     print("                                                             ")
     print("                                                             ")
     print("                                                             ")
